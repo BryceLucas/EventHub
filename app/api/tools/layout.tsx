@@ -23,6 +23,9 @@ export default function RootLayout({
               <a href="/calendar" className="hover:underline">
                 Calendar
               </a>
+              <a href="/assistant" className="hover:underline">
+                Assistant
+              </a>
             </nav>
           </header>
           <main>{children}</main>
