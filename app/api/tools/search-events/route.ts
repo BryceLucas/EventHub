@@ -130,6 +130,6 @@ export async function POST(req: NextRequest) {
     };
   });
 
-  // Return the structured events list wrapped in a JSON response
+  // Return the structured events list, wrapped in a JSON response
   return Response.json({ events });
 }
