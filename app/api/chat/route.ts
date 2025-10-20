@@ -1,53 +1,70 @@
-// Functional Summary
-// defines an asynchronous function for handling POST requests in a Next.js application.
-// extracts messages from the requesto body and verifies API key.
-// POST request is made to the together API and a formatted JSON response is returned.
-
-
-// Importing NextRequest type from Next.js server utilities
 import { NextRequest } from "next/server";
 
-// Exporting an asynchornous POST function to handle incoming requests
+async function callTogetherWithRetry(payload: any, retries = 2) {
+  for (let i = 0; i <= retries; i++) {
+    const resp = await fetch(
+      "https://api.together.xyz/v1/chat/completions",
+      payload
+    );
+    if (resp.ok) return await resp.json();
+    if (i === retries) throw new Error("Together.ai API failed after retries");
+  }
+}
+
 export async function POST(req: NextRequest) {
-  // Attempting to pasre the request body as JSON; if it fails, assign an empty object
-  const body = await req.json().catch(() => ({}));
-  
-  // Extracting messages from the body; defaults to an empty array if not an array
-  const messages = Array.isArray(body?.messages) ? body.messages : [];
-  
-  // Retrieving the API key from environment variables; defaults to an empty string if not found
-  const apiKey = process.env.TOGETHER_API_KEY || "";
-  
-  // Checking if the API key is missing; returns a 500 error response if so
-  if (!apiKey) return new Response("Missing TOGETHER_API_KEY", { status: 500 });
+  try {
+    const body = await req.json();
+    let { messages, tone = "default" } = body;
 
-  // Making a POST request to the 'together' API for chat completions
-  const resp = await fetch("https://api.together.xyz/v1/chat/completions", {
-    // Setting the request method to POST
-    method: "POST",
-    headers: {
-      // Specifying content type as JSON
-      "Content-Type": "application/json",
-      // Adding authorization header with the API key
-      Authorization: `Bearer ${apiKey}`,
-    },
-    // Sending the request body containing model parameters and messages
-    body: JSON.stringify({
-      model: "openai/gpt-oss-20b", // Specifying the model to use
-      messages, // Including the extracted messages
-      temperature: 0.4, // Setting the randomness of the model's predictions
-      max_tokens: 512,  // Limiting the maximum number of tokens in the response
-    }),
-  });
+    const apiKey = process.env.TOGETHER_API_KEY;
+    if (!apiKey) {
+      return new Response("Missing TOGETHER_API_KEY", { status: 500 });
+    }
 
-  // Checking if the response from the API is not OK; returns a 502 error response if so
-  if (!resp.ok) return new Response("Upstream error", { status: 502 });
-  
-  //Parsing the JSON data from the response
-  const data = await resp.json();
-  
-  // Returning the response data as JSON with the correct content type
-  return new Response(JSON.stringify(data), {
-    headers: { "Content-Type": "application/json" },
-  });
+    if (messages.length > 10) {
+      messages = messages.slice(messages.length - 10);
+    }
+
+    let systemInstruction = `You are EventBot, an AI assistant for EventHub. Your job is to answer questions clearly, accurately, and in the requested tone.`;
+    switch (tone) {
+      case "casual":
+        systemInstruction += " Speak casually and friendly.";
+        break;
+      case "formal":
+        systemInstruction += " Speak in a formal, professional tone.";
+        break;
+      case "helpful":
+        systemInstruction += " Be extremely helpful and clear, like a tutor.";
+        break;
+      case "sarcastic":
+        systemInstruction += " Respond with mild sarcasm but stay helpful.";
+        break;
+      default:
+        systemInstruction += " Reply normally.";
+    }
+
+    const payload = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${apiKey}`,
+      },
+      body: JSON.stringify({
+        model: "openai/gpt-oss-20b",
+        messages: [{ role: "system", content: systemInstruction }, ...messages],
+        temperature: 0.7,
+        max_tokens: 400,
+      }),
+    };
+
+    const data = await callTogetherWithRetry(payload);
+    const reply = data.choices[0].message.content;
+
+    return new Response(JSON.stringify({ reply }), {
+      headers: { "Content-Type": "application/json" },
+    });
+  } catch (err) {
+    console.error("Error in /api/chat route:", err);
+    return new Response("Internal Server Error", { status: 500 });
+  }
 }
