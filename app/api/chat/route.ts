@@ -1,3 +1,9 @@
+// Functional Summary
+// defines an asynchronous function for handling POST requests in a Next.js application.
+// extracts messages from the requesto body and verifies API key.
+// POST request is made to the together API and a formatted JSON response is returned.
+
+// Importing NextRequest type from Next.js server utilities
 import { NextRequest } from "next/server";
 
 async function callTogetherWithRetry(payload: any, retries = 2) {
