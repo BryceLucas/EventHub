@@ -4,22 +4,67 @@ import { useEffect, useRef, useState } from "react";
 import type { ChatMsg } from "@/lib/chat-client";
 import { sendChat } from "@/lib/chat-client";
 
+const STORAGE_KEY = "eventhub-assistant-chat";
+
+const SEED: ChatMsg[] = [
+  {
+    role: "system",
+    content: "You are EventHub Assistant. Be concise and helpful.",
+  },
+  {
+    role: "assistant",
+    content: "Hi! Ask me about events, weather, or planning.",
+  },
+];
+
 export default function AssistantPage() {
-  /* -------------------- Q&A (left column) -------------------- */
   const [input, setInput] = useState("");
   const [busy, setBusy] = useState(false);
-  const [msgs, setMsgs] = useState<ChatMsg[]>([
-    {
-      role: "system",
-      content: "You are EventHub Assistant. Be concise and helpful.",
-    },
-    {
-      role: "assistant",
-      content: "Hi! Ask me about events, weather, or planning.",
-    },
-  ]);
+  const [msgs, setMsgs] = useState<ChatMsg[]>(SEED);
+
+  // NEW: hydration guard prevents overwriting saved chats on first render
+  const [loadedFromStorage, setLoadedFromStorage] = useState(false);
+
   const listRef = useRef<HTMLDivElement | null>(null);
 
+  /* ---------- LOAD from localStorage ONCE (before we allow saving) ---------- */
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        if (
+          Array.isArray(parsed) &&
+          parsed.every((m) => m?.role && typeof m?.content === "string")
+        ) {
+          setMsgs(parsed);
+        } else {
+          // if bad data, reset to SEED
+          setMsgs(SEED);
+        }
+      } else {
+        // nothing saved yet → keep SEED
+        setMsgs(SEED);
+      }
+    } catch {
+      setMsgs(SEED);
+    } finally {
+      setLoadedFromStorage(true);
+    }
+  }, []);
+
+  /* ---------- SAVE to localStorage whenever msgs change (but only after load) ---------- */
+  useEffect(() => {
+    if (!loadedFromStorage) return; // <-- key line: don't save the initial SEED over real history
+    try {
+      const capped = msgs.slice(-200); // optional cap
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(capped));
+    } catch {
+      // ignore
+    }
+  }, [msgs, loadedFromStorage]);
+
+  /* ---------- Scroll to bottom on updates ---------- */
   useEffect(() => {
     listRef.current?.scrollTo({
       top: listRef.current.scrollHeight,
@@ -37,11 +82,9 @@ export default function AssistantPage() {
     setBusy(true);
 
     try {
-      // Your helper posts to /api/chat
       const forApi = nextMsgs.filter((m) => m.role !== "system");
       const data = await sendChat(forApi);
 
-      // Tolerate many shapes: OpenAI-style, {reply}, {message}, raw text
       const choices = Array.isArray((data as any)?.choices)
         ? (data as any).choices
         : [];
@@ -110,10 +153,24 @@ export default function AssistantPage() {
     }
   }
 
-  /* ------------------------------ UI ------------------------------ */
   return (
     <section className="grid gap-4">
-      <h1 className="text-2xl font-semibold">Assistant</h1>
+      <div className="flex items-center justify-between">
+        <h1 className="text-2xl font-semibold">Assistant</h1>
+
+        <button
+          onClick={() => {
+            try {
+              localStorage.removeItem(STORAGE_KEY);
+            } catch {}
+            setMsgs(SEED);
+          }}
+          className="text-xs text-zinc-400 hover:underline"
+          title="Clear saved conversation"
+        >
+          Clear chat
+        </button>
+      </div>
 
       {/* Two columns on desktop, stacked on mobile */}
       <div className="grid gap-4 md:grid-cols-2">
