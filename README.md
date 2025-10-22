@@ -81,4 +81,14 @@ POST /api/tools/search-events
   "lng": -83.0458,
   "radiusKm": 40
 }
+```
+---
 
+Milestone 3 Readme implementations 
+# 📘 EventHub — Milestone 3: Short Demo Video & Code Repo Submission
+
+## 📽️ Demo Video
+Insert video link
+
+## 📁 Code Respository 
+https://github.com/BryceLucas/EventHub 
