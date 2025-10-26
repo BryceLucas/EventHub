@@ -1,3 +1,6 @@
+// This component defines the layout structure for the application
+// or for a particular section (ex: navbars and footers shared across pages)
+
 // Importing global CSS styles for the application
 import "./global.css";
 // Importing the Metadata type from Next,js for typing metadata
