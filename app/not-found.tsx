@@ -1,4 +1,6 @@
 // /app/not-found.tsx
+// Component serves as a custom 404 page that displays when
+// users navigate to routes that don't exist
 
 // Default export of the NotFound component, which is displayed when a page is not found
 export default function NotFound() {
