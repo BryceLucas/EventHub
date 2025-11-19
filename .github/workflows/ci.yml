@@ -44,7 +44,7 @@ jobs:
           path: .next
 
       - name: Deploy to AWS Amplify
-        uses: aws-actions/aws-amplify-deploy@v1
+        uses: aws-actions/amplify-deploy@v4
         with:
           app-id: ${{ secrets.AMPLIFY_APP_ID }}
           branch-name: main
