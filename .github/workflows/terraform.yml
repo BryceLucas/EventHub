@@ -1,0 +1,33 @@
+name: Terraform - EventHub IaC
+
+on:
+  workflow_dispatch:
+
+jobs:
+  terraform:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.6.0
+
+      - name: Terraform Init
+        working-directory: ./infra/terraform
+        run: terraform init
+
+      - name: Terraform Plan
+        working-directory: ./infra/terraform
+        env:
+          TF_VAR_github_token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+        run: terraform plan
+
+      - name: Terraform Apply
+        working-directory: ./infra/terraform
+        env:
+          TF_VAR_github_token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+        run: terraform apply -auto-approve
