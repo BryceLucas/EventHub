@@ -1,19 +1,18 @@
-name: Deploy EventHub
+name: CI/CD - EventHub
 
 on:
   push:
-    branches:
-      - main
+    branches: [ "main" ]
+  workflow_dispatch:
 
 jobs:
   build:
+    name: Build Next.js App
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
-        with:
-          token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
@@ -21,7 +20,7 @@ jobs:
           node-version: "18"
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
       - name: Build Next.js
         run: npm run build
@@ -33,14 +32,13 @@ jobs:
           path: .next
 
   terraform:
+    name: Terraform Infrastructure
     needs: build
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
-        with:
-          token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
@@ -48,38 +46,33 @@ jobs:
           terraform_version: 1.6.0
 
       - name: Terraform Init
-        working-directory: ./infra/terraform
+        working-directory: infra/terraform
         run: terraform init
 
       - name: Terraform Plan
-        working-directory: ./infra/terraform
-        env:
-          TF_VAR_github_token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+        working-directory: infra/terraform
         run: terraform plan
 
       - name: Terraform Apply
-        working-directory: ./infra/terraform
-        env:
-          TF_VAR_github_token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+        working-directory: infra/terraform
         run: terraform apply -auto-approve
 
   deploy:
-    needs: [build, terraform]
+    name: Deploy to AWS Amplify
+    needs: [ build, terraform ]
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
-        with:
-          token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
 
-      - name: Download build
+      - name: Download build output
         uses: actions/download-artifact@v3
         with:
           name: next-build
           path: .next
 
-      - name: Deploy to AWS Amplify
+      - name: Deploy to Amplify
         uses: aws-actions/aws-amplify-deploy@v1
         with:
           app-id: ${{ secrets.AMPLIFY_APP_ID }}
