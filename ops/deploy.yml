@@ -24,6 +24,16 @@ jobs:
         run: npm install
 
       - name: Build Next.js
+        env:
+          EVENTBRITE_API_KEY: ${{ secrets.EVENTBRITE_API_KEY }}
+          EVENTBRITE_CLIENT_SECRET: ${{ secrets.EVENTBRITE_CLIENT_SECRET }}
+          EVENTBRITE_PRIVATE_TOKEN: ${{ secrets.EVENTBRITE_PRIVATE_TOKEN }}
+          EVENTBRITE_PUBLIC_TOKEN: ${{ secrets.EVENTBRITE_PUBLIC_TOKEN }}
+
+          TICKETMASTER_API_KEY: ${{ secrets.TICKETMASTER_API_KEY }}
+          TICKETMASTER_SECRET: ${{ secrets.TICKETMASTER_SECRET }}
+
+          TOGETHER_API_KEY: ${{ secrets.TOGETHER_API_KEY }}
         run: npm run build
 
       - name: Upload build artifacts
