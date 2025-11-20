@@ -92,3 +92,14 @@ Insert video link
 
 ## 📁 Code Respository 
 https://github.com/BryceLucas/EventHub 
+
+---
+
+Milestone 4 Readme implementations 
+# 📘 EventHub — Milestone 5: Automated Deployment Documentation
+
+## ⚙️ Redeploy EventHub
+Because EventHub has been created in a website format, users simply have to reload the page, or close and re-open the webpage, to redeploy it. In order to launch EventHub, you can click the link here: https://main.d2kyjytvso7qd4.amplifyapp.com/ .
+
+## 📁 Code Respository 
+https://github.com/BryceLucas/EventHub 
