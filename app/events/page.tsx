@@ -7,12 +7,12 @@ import {
   type EventMarker,
 } from "@/lib/maps/transformEvents";
 
-// Load Leaflet map on CLIENT only — required for Amplify & Next.js SSR
+// Load Leaflet map only on the client — SSR must stay off
 const EventMap = dynamic(() => import("@/components/map/EventMap"), {
   ssr: false,
 });
 
-export default function EventsPage() {
+export default function MapPage() {
   const [events, setEvents] = useState<EventMarker[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -41,7 +41,7 @@ export default function EventsPage() {
         setEvents(markers);
       } catch (err) {
         console.error(err);
-        setError("Unable to load events at this time.");
+        setError("Unable to load map data.");
       } finally {
         setLoading(false);
       }
@@ -51,20 +51,16 @@ export default function EventsPage() {
   }, []);
 
   return (
-    <main className="p-6 space-y-6">
-      <h1 className="text-2xl font-semibold">Events</h1>
-      <p>Search and browse events.</p>
+    <main className="p-6 space-y-4">
+      <h1 className="text-2xl font-semibold">Map</h1>
+      <p>Explore events using the interactive map.</p>
 
-      {loading && (
-        <div className="text-lg text-yellow-200 font-medium">
-          Loading events...
-        </div>
-      )}
+      {loading && <div className="text-yellow-200 text-lg">Loading map...</div>}
 
-      {error && <div className="text-red-300 font-medium">{error}</div>}
+      {error && <div className="text-red-300">{error}</div>}
 
       {!loading && !error && (
-        <div className="w-full h-[600px]">
+        <div className="w-full h-[700px]">
           <EventMap events={events} />
         </div>
       )}
