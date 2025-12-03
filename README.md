@@ -1,105 +1,113 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🌐 EventHub
 
-## Getting Started
+EventHub is an interactive event discovery platform that helps users:
 
-First, run the development server:
+- Explore events happening near them  
+- View event details (date, venue, images, and ticket info)  
+- See local weather conditions for the event location  
+- Chat with an AI assistant for recommendations  
+- View all events on an interactive map with popups and clustering  
+
+EventHub brings events, weather, and AI together into one simple interface.
+
+---
+
+## 🚀 Getting Started
+
+Follow these steps to run EventHub on your device.
+
+### 1️⃣ Install dependencies
 
 ```bash
+npm install
+2️⃣ Start the development server
+bash
+Copy code
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Visit the app at:
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+http://localhost:3000
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+🗺️ Map Feature Setup (Required for EventHub to run)
+EventHub includes a fully interactive map built using Leaflet.
+To enable the map, install these packages:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+bash
+Copy code
+npm install leaflet react-leaflet react-leaflet-cluster
+Then ensure Leaflet’s CSS is loaded.
 
-## Learn More
+In app/layout.tsx, add:
 
-To learn more about Next.js, take a look at the following resources:
+tsx
+Copy code
+import "leaflet/dist/leaflet.css";
+Once installed, the map will automatically load and show:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Event markers
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Popup information
 
-## Deploy on Vercel
+Event images
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Cluster grouping for dense areas
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+🧭 How to Use EventHub
+EventHub has several tabs and features to help you find events easily.
 
+📅 Events Page
+The Events tab displays a feed of nearby events:
 
-Milestone 2 Readme implementations 
-# 📘 EventHub — Milestone 2: API Specification & Implementation
+Event name
 
-## 🧩 Problem Statement
-EventHub aims to simplify event discovery by combining **event data**, **weather forecasts**, and **AI-powered recommendations** in one platform.  
-Users can explore local or national events, see live weather predictions for each venue, and chat with an assistant that generates contextual suggestions and accessibility insights.
+Date and time
 
----
+Venue
 
-## 🧠 Justification & API Choices
+Preview image
 
-| API | Purpose | Reason for Selection |
-|------|----------|----------------------|
-| **Ticketmaster Discovery API** | Retrieves detailed event data including location, date, category, and ticket pricing. | Reliable, public, and easy JSON integration for large event coverage. |
-| **Open-Meteo API** | Fetches weather forecasts for event locations. | Free, no-key API ideal for real-time weather pairing with events. |
-| **Together.ai GPT-OSS 20B (LLM)** | Generates human-like text responses for the EventHub Assistant. | Low-cost open-source model that supports chat, reasoning, and contextual recommendations. |
-| *(Future)* Wheelmap / Accessibility API | Provides venue accessibility data. | Planned for future milestone integration to improve inclusivity. |
+Ticketmaster link
 
----
+You can scroll through events or filter the list using the search options (if available).
 
-## 🧭 System Endpoints
+🌤️ Weather Integration
+Every event includes a weather snapshot:
 
-| Endpoint | Type | Description |
-|-----------|------|--------------|
-| `/api/tools/search-events` | POST | Returns normalized Ticketmaster event objects based on user query, coordinates, and date filters. |
-| `/api/tools/weather` | POST | Returns weather data (temp F/C + summary) for specified latitude/longitude. |
-| `/api/chat` | POST | Sends message array to Together.ai model and returns generated reply. |
-| `/events` | Page | Displays list of events with integrated API data. |
-| `/assistant` | Page | Interactive UI that connects to the LLM for conversation and recommendations. |
+Temperature
 
----
+Weather summary
 
-## 🧰 Example Request + Response
+Icon showing current conditions
 
-### Example 1 – Ticketmaster Events
+Weather is automatically matched to the event’s exact location.
 
-**Request**
-```json
-POST /api/tools/search-events
-{
-  "q": "Detroit",
-  "lat": 42.3314,
-  "lng": -83.0458,
-  "radiusKm": 40
-}
-```
----
+🗺️ Map View
+The Map tab shows all events as interactive pins:
 
-Milestone 3 Readme implementations 
-# 📘 EventHub — Milestone 3: Short Demo Video & Code Repo Submission
+Click a marker to see event name, venue, date, and image
 
-## 📽️ Demo Video
-Insert video link
+Map automatically zooms to include all nearby events
 
-## 📁 Code Respository 
-https://github.com/BryceLucas/EventHub 
+Clustering keeps the map clean when many events are close together
 
----
+💬 AI Assistant
+The Assistant tab connects you with an AI helper that can:
 
-Milestone 4 Readme implementations 
-# 📘 EventHub — Milestone 5: Automated Deployment Documentation
+Recommend events
 
-## ⚙️ Redeploy EventHub
-Because EventHub has been created in a website format, users simply have to reload the page, or close and re-open the webpage, to redeploy it. In order to launch EventHub, you can click the link here: https://main.d2kyjytvso7qd4.amplifyapp.com/ .
+Summarize weather
 
-## 📁 Code Respository 
-https://github.com/BryceLucas/EventHub 
+Suggest planning ideas
+
+Answer general event questions
+
+Just type a message and the assistant will respond instantly.
+
+📦 Project Structure (Simplified for Users)
+bash
+Copy code
+/app            → Pages and routing
+/components     → UI components
+/components/map → Map, popups, and clustering
+/lib            → API helpers and event transformation
+/public         → Static assets and images
