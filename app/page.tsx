@@ -8,31 +8,23 @@ export const dynamic = "force-static"; // optional: helps with caching
 export default function HomePage() {
   return (
     <main 
-      className="min-h-screen flex flex-col bg-gradient-to-br from-[#FFCC0D]/50 to-[#BF2669]/50 p-6">
-
-      {/* ---------- Gradient underline bar ---------- */}
-      <div
-        className="mx-auto mb-8 rounded-md h-4 w-full max-w-6xl"
-        style={{
-          background: "linear-gradient(90deg, #FF7326 0%, #702A8C 100%)",
-        }}
-      />
+      className="min-h-screen flex flex-col p-6 max-w-6xl mx-auto">
 
       {/* ---------- Hero Section with Logo ---------- */}
-      <section className="flex justify-between items-center mb-8">
+      <section className="flex flex-col md:flex-row justify-between items-center mb-8">
         {/* Left: Title and subtitle */}
         <div className="text-left max-w-xl mb-4 md:mb-0">
           <h1 className="text-4xl font-semibold tracking-tight text-white">
             Welcome to EventHub 
           </h1>
 
-        <p className="mt-2 text-zinc-200 text-sm md:text-base">
-          Discover local events, plan your outings, and use AI assistance to
-          stay organized.
-        </p>
+          <p className="mt-2 text-zinc-200 text-sm md:text-base">
+            Discover local events, plan your outings, and use AI assistance to
+            stay organized.
+          </p>
         </div>
 
-          {/* Right: Logo */}
+        {/* Right: Logo */}
         <div className="ml-0 md:ml-4">
           <img
             src="/logo.png"
