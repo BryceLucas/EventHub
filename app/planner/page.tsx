@@ -24,22 +24,22 @@ export default function PlannerPage() {
       setItems([]);
     }
   }, []); // Empty dependency array means this effect runs only once after the initial render
+ */
 
-  return (
-    <main className="mx-auto max-w-6xl p-4 md:p-6"> {/*Main container with centered alignment and padding*/}
-      <h1 className="text-2xl font-semibold">Planner</h1> {/*HEading for the page*/}
-      <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3"> {/*Grid layout for event cards */}
-        {items.length === 0 ? (
-          <div className="text-sm text-zinc-400">No saved events yet.</div> // Message if no events are found
-        ) : (
-          // Mapping over items to render each EventCard component
-          items.map((e, i) => <EventCard key={e.id ?? i} event={e} />)
-        )}
-      </div>
-    </main>
-  );
-}
-*/
+//  return (
+//    <main className="mx-auto max-w-6xl p-4 md:p-6"> //Main container with centered alignment and padding
+//      <h1 className="text-2xl font-semibold">Planner</h1> //HEading for the page
+//     <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3"> //Grid layout for event cards 
+//        {items.length === 0 ? (
+//          <div className="text-sm text-zinc-400">No saved events yet.</div> // Message if no events are found
+//        ) : (
+//          // Mapping over items to render each EventCard component
+//         items.map((e, i) => <EventCard key={e.id ?? i} event={e} />)
+//        )}
+//      </div>
+//    </main>
+//  );
+
 "use client";
 
 // Importing necessary hooks from React
