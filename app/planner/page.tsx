@@ -1,3 +1,4 @@
+/* 
 // Component should be rendered on the client side in Next.js
 "use client";
 
@@ -38,3 +39,18 @@ export default function PlannerPage() {
     </main>
   );
 }
+*/
+"use client";
+import PlannerPageUI from "@/components/PlannerPageUI";
+
+export default function PlannerPage() {
+  const [items, setItems] = useState([]);
+
+  useEffect(() => {
+    const raw = localStorage.getItem("savedEvents");
+    setItems(raw ? JSON.parse(raw) : []);
+  }, []);
+
+  return <PlannerPageUI items={items} />;
+}
+  
