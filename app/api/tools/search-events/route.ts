@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import { NextRequest } from "next/server";
 import crypto from "crypto";
 
@@ -43,7 +45,6 @@ export async function POST(req: NextRequest) {
   try {
     body = await req.json();
   } catch (err) {
-    // Amplify sometimes gives empty body
     console.warn("Amplify JSON parse fallback hit.");
     body = {};
   }
