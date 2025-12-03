@@ -9,8 +9,7 @@ export default function PlannerPageUI({ items }: { items: any[] }) {
 
   return (
     <div className="min-h-screen w-full p-6 font-sans">
-      {/* Divider */}
-      <div className="w-full h-2 bg-purple-700 rounded-full mb-8"></div>
+      
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Calendar Section */}
