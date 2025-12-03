@@ -41,6 +41,8 @@ export default function PlannerPage() {
 }
 */
 "use client";
+
+import { useState, useEffect } from "react";
 import PlannerPageUI from "@/components/PlannerPageUI";
 
 export default function PlannerPage() {
@@ -53,4 +55,4 @@ export default function PlannerPage() {
 
   return <PlannerPageUI items={items} />;
 }
-  
+
