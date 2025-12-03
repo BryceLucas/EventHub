@@ -144,7 +144,7 @@ export default function HomePage() {
 
 
       {/* ---------- Footer ---------- */}
-      <footer className="mt-10 text-center text-xs text-zinc-400">
+      <footer className="mt-10 text-center text-xs text-black">
         <p>
           © {new Date().getFullYear()} EventHub. Built by the EventHub Team.
         </p>

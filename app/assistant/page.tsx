@@ -179,9 +179,9 @@ export default function AssistantPage() {
   }
 
   return (
-    <section className="grid gap-4"> {/*Main section with grid layout*/}
+    <section className="grid gap-4 p-4 md:p-6 max-w-6xl mx-auto"> {/*Main section with grid layout*/}
       <div className="flex items-center justify-between"> {/*Header section for Assitant*/}
-        <h1 className="text-2xl font-semibold">Assistant</h1> {/*Page title */}
+        <h1 className="text-2xl font-semibold" style={{ fontFamily: '"Contrail One", sans-serif', color: 'black' }}>Assistant</h1> {/*Page title */}
 
         <button
           onClick={() => {
@@ -190,7 +190,8 @@ export default function AssistantPage() {
             } catch {}
             setMsgs(SEED); // Reset messages to seed
           }}
-          className="text-xs text-zinc-400 hover:underline"
+          className="text-xs hover:underline"
+          style={{ color: 'black' }}
           title="Clear saved conversation" // Tooltip for the button
         >
           Clear chat
@@ -203,32 +204,26 @@ export default function AssistantPage() {
         <div className="flex flex-col gap-4">
           <div
             ref={listRef} // Reference for scrolling
-            className="h-[60vh] w-full overflow-y-auto rounded-2xl border border-zinc-800 bg-zinc-900/40 p-4"
-            // Styling for the message container
-          >
-            <div className="grid gap-3">
-              {msgs
-                .filter((m) => m.role !== "system") // Filter out system messages
-                .map((m, i) => (
-                  <div
-                    key={i}
-                    className={
-                      m.role === "user"
-                        ? "ml-auto max-w-[80%] rounded-xl bg-zinc-800 px-3 py-2" // User message styling
-                        : "max-w-[80%] rounded-xl bg-zinc-700/60 px-3 py-2" // Assistant message styling
-                    }
-                  >
-                    <div className="whitespace-pre-wrap text-sm">
-                      {m.content} {/*Display message content*/}
-                    </div>
-                  </div>
-                ))}
-
-              {busy && (
-                <div className="max-w-[80%] rounded-xl bg-zinc-700/40 px-3 py-2 text-sm">
-                  Thinking…  {/*Indicator for the assistant's processing*/}
+            className="h-[60vh] w-full overflow-y-auto rounded-2xl p-4"
+             style={{
+              background: "linear-gradient(135deg, #FFCC0D66 0%, #FF194D66 40%)",
+              boxShadow: "-12px 12px 6px rgba(68,2,94,0.5)",
+              border: "4px solid black",
+              fontFamily: '"Contrail One", sans-serif',
+              color: "black",
+            }}
+            >
+             <div className="grid gap-3">
+              {msgs.filter((m) => m.role !== "system").map((m, i) => (
+                <div key={i} className={`${m.role === "user" ? "ml-auto" : ""} max-w-[80%] rounded-xl px-3 py-2`} 
+                style={{ backgroundColor: m.role === "user" ? "#FFCC0D55" : "#FF194D55" }}>
+                  <div className="whitespace-pre-wrap text-sm" style={{ color: 'black' }}>{m.content}</div>
                 </div>
-              )}
+              ))}
+              
+              {busy && 
+                <div className="max-w-[80%] rounded-xl px-3 py-2 text-sm" 
+                style={{ backgroundColor: "#FF194D55", color: 'black' }}>Thinking…</div>}
             </div>
           </div>
 
@@ -243,7 +238,8 @@ export default function AssistantPage() {
             <button
               onClick={onSend} // Call onSend function when clicked
               disabled={busy || !input.trim()} // Disable button if busy or input is empty
-              className="rounded-xl bg-zinc-100 px-4 py-2 text-zinc-900 disabled:opacity-50"
+              className="rounded-xl px-4 py-2 disabled:opacity-50"
+              style={{ backgroundColor: "#FFCC0D", color: "black", fontFamily: '"Contrail One", sans-serif' }}
             >
               Send {/*Button text*/}
             </button>
@@ -251,31 +247,40 @@ export default function AssistantPage() {
         </div>
 
         {/* --------------- Right: Summarize --------------- */}
-        <div className="flex flex-col gap-3 rounded-2xl border border-zinc-800 bg-zinc-900/40 p-4">
-          <div className="text-sm font-medium">Summarize</div> {/*Summarization section header*/}
-
+        <div 
+          className="flex flex-col gap-3 rounded-2xl p-4"
+          style={{
+            background: "linear-gradient(135deg, #FFCC0D66 0%, #FF194D66 40%)",
+            boxShadow: "-12px 12px 12px rgba(68,2,94,0.5)",
+            border: "4px solid black",
+            fontFamily: '"Contrail One", sans-serif',
+            color: "black",
+          }}
+        >
+          <div className="text-sm font-medium" style={{ color: "black" }}>Summarize</div>
           <textarea
             value={sumInput} // Controlled input field for summarization
             onChange={(e) => setSumInput(e.target.value)} // Update state on change
             placeholder="Paste text to summarize…" // Placeholder text for summarization input
-            className="min-h-[180px] flex-1 resize-y rounded-xl border border-zinc-800 bg-zinc-900/60 p-3 text-sm outline-none focus:border-zinc-600"
+             className="min-h-[180px] flex-1 resize-y rounded-xl border border-zinc-800 p-3 text-sm outline-none focus:border-zinc-600"
+            style={{ color: "black", fontFamily: '"Contrail One", sans-serif' }}
           />
 
           <div className="flex items-center justify-between"> {/*Flex container for summary controls*/}
-            <span className="text-xs text-zinc-400">
-              {sumInput.trim().length} chars {/*Display character count*/}
-            </span>
+            <span className="text-xs" style={{ color: 'black' }}>{sumInput.trim().length} chars</span>
             <button
               onClick={onSummarize} // Call onSummarize function when clicked
               disabled={sumBusy || !sumInput.trim()} // Disable button if busy or input is empty
-              className="rounded-xl bg-zinc-100 px-4 py-2 text-zinc-900 disabled:opacity-50"
+               className="rounded-xl px-4 py-2 disabled:opacity-50"
+              style={{ backgroundColor: "#FFCC0D", color: "black", fontFamily: '"Contrail One", sans-serif' }}
             >
               {sumBusy ? "Summarizing…" : "Summarize"} {/*Button text changes based on busy state */}
             </button>
           </div>
 
           {summary && ( // Conditional rendering of summary content
-            <div className="whitespace-pre-wrap rounded-xl border border-zinc-800 bg-zinc-900/60 p-3 text-sm">
+            <div className="whitespace-pre-wrap rounded-xl p-3 text-sm" 
+              style={{ backgroundColor: "#FF194D55", border: "4px solid black", color: "black", fontFamily: '"Contrail One", sans-serif' }}>
               {summary} {/*Display the generated summary*/}
             </div>
           )}
