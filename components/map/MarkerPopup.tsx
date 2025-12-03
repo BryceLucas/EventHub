@@ -1,6 +1,7 @@
 interface Props {
   event: {
-    name: string;
+    name?: string;
+    title?: string;
     venue?: string;
     date?: string;
     image?: string;
@@ -9,9 +10,11 @@ interface Props {
 }
 
 export default function MarkerPopup({ event }: Props) {
+  const title = event.title || event.name || "Event";
+
   return (
     <div style={{ minWidth: 180 }}>
-      <strong style={{ fontSize: "15px" }}>{event.name}</strong>
+      <strong style={{ fontSize: "15px" }}>{title}</strong>
       <br />
 
       {event.venue && <div>📍 {event.venue}</div>}

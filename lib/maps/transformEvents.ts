@@ -1,11 +1,12 @@
 export interface EventMarker {
-  name: string;
+  id: string;
+  title: string; 
+  venue: string; 
   lat: number;
   lng: number;
-  venue?: string;
-  date?: string;
-  image?: string;
-  url?: string;
+  date?: string | null;
+  image?: string | null;
+  url?: string | null;
 }
 
 export function transformTicketmaster(data: any): EventMarker[] {

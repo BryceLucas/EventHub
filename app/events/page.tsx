@@ -61,7 +61,7 @@ export default function MapPage() {
 
       {!loading && !error && (
         <div className="w-full h-[700px]">
-          <EventMap events={events} />
+          <EventMap events={events} savedEvents={[]} />
         </div>
       )}
     </main>
