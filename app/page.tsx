@@ -27,7 +27,7 @@ export default function HomePage() {
           className="text-5xl font-normal text-black"
           style={{ fontFamily: '"Contrail One", sans-serif' }}
         >
-          EventHub
+          Welcome to EventHub
         </h1>
         <p className="mt-2 text-lg text-black md:whitespace-nowrap">
           Discover local events, plan your outings, and use AI assistance to stay organized.
