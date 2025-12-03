@@ -55,7 +55,7 @@ export default function PlannerPageUI({ items }: { items: any[] }) {
             {/* Event buttons replaced with EventCard list */}
             <div className="space-y-3">
               {items.length === 0 ? (
-                <div className="text-center text-sm text-gray-600">No saved events.</div>
+                <div className="text-center text-sm text-black-600">No saved events.</div>
               ) : (
                 items.map((e, i) => (
                   <EventCard key={e.id ?? i} event={e} />
