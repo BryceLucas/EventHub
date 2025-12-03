@@ -27,7 +27,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en"> {/*Setting the language of the document to English*/}
-      <body className={`${inter.className} bg-gradient-to-br from-[#FFCC0D]/50 to-[#BF2669]/50 text-zinc-100 min-h-screen`}>
+      <body 
+        className={`${inter.className} text-zinc-100 min-h-screen`}
+        style={{
+          background: "linear-gradient(135deg, #FFCC0D 0%, #BF2669 100%)",
+        }}
+      >
         {/*Body with applied font and background/text color classes*/}
         <TopNav /> {/*Rendering the TopNav component for navigation */}
         <div
