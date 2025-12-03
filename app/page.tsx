@@ -2,8 +2,8 @@
 export const dynamic = "force-static"; // optional: helps with caching
 
 // Fonts
-import '@fontsource/contrail-one'; // for card text
-import '@fontsource/bowlby-one-sc'; // for navbar links
+//import '@fontsource/contrail-one'; // for card text
+//import '@fontsource/bowlby-one-sc'; // for navbar links
 
 export default function HomePage() {
   return (
@@ -48,7 +48,7 @@ export default function HomePage() {
           stay organized.
         </p>
         </div>
-        
+
          {/* Right: Logo */}
         <div className="ml-4">
           <img
