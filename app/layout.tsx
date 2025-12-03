@@ -27,9 +27,13 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en"> {/*Setting the language of the document to English*/}
-      <body className={`${inter.className} bg-zinc-950 text-zinc-100`}>
+      <body className={`${inter.className} bg-gradient-to-br from-[#FFCC0D]/50 to-[#BF2669]/50 text-zinc-100 min-h-screen`}>
         {/*Body with applied font and background/text color classes*/}
         <TopNav /> {/*Rendering the TopNav component for navigation */}
+        <div
+        className="w-full h-2"
+        style={{ background: 'linear-gradient(90deg, #FF7326 0%, #702A8C 100%)',}}
+        />
         {/* Pages already handle their own containers/margins */}
         {children} {/*Rendering child components (individual pages) passed to this layout*/}
       </body>

@@ -8,29 +8,11 @@ export const dynamic = "force-static"; // optional: helps with caching
 export default function HomePage() {
   return (
     <main 
-      className="mx-auto max-w-6xl p-6 min-h-screen"
-      style={{
-         // Page background gradient: FFCC0D → BF2669 with 50% opacity
-        background:
-          "linear-gradient(135deg, rgba(255,204,13,0.5), rgba(191,38,105,0.5))",
-      }}
-      >
-          {/* ---------- Navbar ---------- */}
-      <nav className="flex justify-center space-x-8 mb-2">
-        {['Home', 'Events', 'Planner', 'Map', 'Assistant'].map((item) => (
-          <a
-            key={item}
-            href={`/${item.toLowerCase() === 'home' ? '' : item.toLowerCase()}`}
-            className="text-white text-lg hover:text-orange-400 transition font-['Bowlby_One_SC']"
-          >
-            {item}
-          </a>
-        ))}
-      </nav>
+      className="min-h-screen flex flex-col bg-gradient-to-br from-[#FFCC0D]/50 to-[#BF2669]/50 p-6">
 
       {/* ---------- Gradient underline bar ---------- */}
       <div
-        className="mx-auto mb-8 rounded-md h-2 max-w-6xl"
+        className="mx-auto mb-8 rounded-md h-4 w-full max-w-6xl"
         style={{
           background: "linear-gradient(90deg, #FF7326 0%, #702A8C 100%)",
         }}
@@ -39,20 +21,21 @@ export default function HomePage() {
       {/* ---------- Hero Section with Logo ---------- */}
       <section className="flex justify-between items-center mb-8">
         {/* Left: Title and subtitle */}
-        <div className="text-left max-w-xl">
-          <h1 className="text-4xl font-semibold tracking-tight">
-            Welcome to EventHub
+        <div className="text-left max-w-xl mb-4 md:mb-0">
+          <h1 className="text-4xl font-semibold tracking-tight text-white">
+            Welcome to EventHub 
         </h1>
-        <p className="mt-2 text-zinc-400 text-sm md:text-base">
+
+        <p className="mt-2 text-zinc-200 text-sm md:text-base">
           Discover local events, plan your outings, and use AI assistance to
           stay organized.
         </p>
         </div>
 
-         {/* Right: Logo */}
-        <div className="ml-4">
+          {/* Right: Logo */}
+        <div className="ml-0 md:ml-4">
           <img
-            src="/logo.png" // replace with your logo path
+            src="/logo.png"
             alt="EventHub Logo"
             className="h-20 w-auto object-contain"
           />
@@ -131,7 +114,7 @@ export default function HomePage() {
       </section>
 
       {/* ---------- Footer ---------- */}
-      <footer className="mt-10 text-center text-xs text-zinc-500">
+      <footer className="mt-10 text-center text-xs text-zinc-400">
         <p>
           © {new Date().getFullYear()} EventHub. Built by the EventHub Team.
         </p>
