@@ -1,7 +1,3 @@
-// This component defines the layout structure for the application
-// or for a particular section (ex: navbars and footers shared across pages)
-
-// IMPORTANT: Leaflet CSS for map tiles + markers
 import "leaflet/dist/leaflet.css";
 
 // Importing global CSS styles for the application
@@ -33,16 +29,15 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      {" "}
-      {/*Setting the language of the document to English*/}
+      {/* Setting the language of the document to English */}
       <body
         className={`${inter.className} text-zinc-100 min-h-screen`}
         style={{
           background: "linear-gradient(135deg, #FFCC0D 0%, #BF2669 100%)",
         }}
       >
-        {/*Body with applied font and background/text color classes*/}
-        <TopNav /> {/*Rendering the TopNav component for navigation */}
+        {/* Body with applied font and background/text color classes */}
+        <TopNav /> {/* Rendering the TopNav component for navigation */}
         <div
           className="w-full h-2"
           style={{
@@ -50,8 +45,8 @@ export default function RootLayout({
           }}
         />
         {/* Pages already handle their own containers/margins */}
-        {children}{" "}
-        {/*Rendering child components (individual pages) passed to this layout*/}
+        {children}
+        {/* Rendering child components (individual pages) passed to this layout */}
       </body>
     </html>
   );

@@ -10,7 +10,6 @@ interface EventLike {
   title?: string;
   url?: string;
 
-  // normalized fields if backend flattens
   date?: string;
   time?: string;
   location?: string;
@@ -43,15 +42,10 @@ const DEFAULT_LAT = 42.3314;
 const DEFAULT_LNG = -83.0458;
 const DEFAULT_RADIUS_KM = 40;
 
-// -----------------------------
-// Helpers
-// -----------------------------
-
 function toReadableLocalTime(raw: string | undefined): string {
   if (!raw) return "";
   const s = raw.trim();
 
-  // Already human like "8:00 PM"
   if (/am|pm/i.test(s)) return s;
 
   let d: Date | null = null;
@@ -103,9 +97,6 @@ function toLocalDate(raw: string | undefined): string {
   return d.toLocaleDateString("en-CA"); // YYYY-MM-DD
 }
 
-// -----------------------------
-// Component
-// -----------------------------
 export default function BrowseEventsPage() {
   const [query, setQuery] = useState("");
   const [events, setEvents] = useState<EventLike[]>([]);
@@ -124,7 +115,6 @@ export default function BrowseEventsPage() {
         radiusKm: DEFAULT_RADIUS_KM,
       };
 
-      // Use SAME endpoint style as the map page (relative URL)
       const res = await fetch("/api/tools/search-events", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
