@@ -24,7 +24,7 @@ export default function HomePage() {
         <div className="text-left max-w-xl mb-4 md:mb-0">
           <h1 className="text-4xl font-semibold tracking-tight text-white">
             Welcome to EventHub 
-        </h1>
+          </h1>
 
         <p className="mt-2 text-zinc-200 text-sm md:text-base">
           Discover local events, plan your outings, and use AI assistance to
