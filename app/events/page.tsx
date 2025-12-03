@@ -1,10 +1,16 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import EventMap from "@/components/map/EventMap";
+import dynamic from "next/dynamic";
 import {
-  transformTicketmaster,type EventMarker,} from "@/lib/maps/transformEvents";
+  transformTicketmaster,
+  type EventMarker,
+} from "@/lib/maps/transformEvents";
 
+// Load Leaflet map on CLIENT only — required for Amplify & Next.js SSR
+const EventMap = dynamic(() => import("@/components/map/EventMap"), {
+  ssr: false,
+});
 
 export default function EventsPage() {
   const [events, setEvents] = useState<EventMarker[]>([]);
@@ -12,7 +18,7 @@ export default function EventsPage() {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    async function fetchEvents() {
+    const fetchEvents = async () => {
       try {
         setLoading(true);
         setError("");
@@ -32,33 +38,31 @@ export default function EventsPage() {
 
         const data = await res.json();
         const markers = transformTicketmaster(data);
-
         setEvents(markers);
-      } catch (err: any) {
+      } catch (err) {
         console.error(err);
         setError("Unable to load events at this time.");
       } finally {
         setLoading(false);
       }
-    }
+    };
 
     fetchEvents();
   }, []);
 
   return (
     <main className="p-6 space-y-6">
-      <div>
-        <h1 className="text-2xl font-semibold">Events</h1>
-        <p>Search and browse events.</p>
-      </div>
+      <h1 className="text-2xl font-semibold">Events</h1>
+      <p>Search and browse events.</p>
 
-      {/* Loading */}
-      {loading && <p className="text-gray-500">Loading map and events…</p>}
+      {loading && (
+        <div className="text-lg text-yellow-200 font-medium">
+          Loading events...
+        </div>
+      )}
 
-      {/* Error */}
-      {error && <p className="text-red-500">{error}</p>}
+      {error && <div className="text-red-300 font-medium">{error}</div>}
 
-      {/* Map */}
       {!loading && !error && (
         <div className="w-full h-[600px]">
           <EventMap events={events} />
